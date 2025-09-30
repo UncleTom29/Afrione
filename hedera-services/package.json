@@ -1,0 +1,27 @@
+{
+  "name": "afrione-hedera-services",
+  "version": "1.0.0",
+  "description": "Hedera services for AfriOne platform",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/examples/complete-tontine-cycle.ts",
+    "example:property": "ts-node src/examples/property-tokenization.ts",
+    "example:tontine-audit": "ts-node src/examples/tontine-audit-trail.ts",
+    "example:full-cycle": "ts-node src/examples/complete-tontine-cycle.ts",
+    "example:file": "ts-node src/examples/file-storage.ts"
+  },
+  "dependencies": {
+    "@hashgraph/sdk": "^2.47.0",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.19",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "keywords": ["hedera", "hts", "hcs", "hscs", "hfs", "tokenization", "afrione"],
+  "author": "AfriOne Team",
+  "license": "MIT"
+}
