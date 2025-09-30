@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AfriOne - The First Decentralized Neo-Bank for Africa</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #f39c12;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #f39c12;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.6);
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 120px 5% 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="50" r="1" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.6;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #fff, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #ecf0f1;
+            font-weight: 300;
+        }
+
+        .hero-text .highlight {
+            font-size: 1.5rem;
+            color: #f39c12;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2.5rem;
+            border: 2px solid white;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(231, 76, 60, 0.6);
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #2c3e50;
+            transform: translateY(-3px);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .phone-mockup {
+            width: 300px;
+            height: 600px;
+            background: #1a1a1a;
+            border-radius: 30px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transform: perspective(1000px) rotateY(-15deg);
+            transition: transform 0.3s ease;
+        }
+
+        .phone-mockup:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .app-header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .tontine-circle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            position: relative;
+        }
+
+        .circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .floating-coin {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #f39c12;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .floating-coin:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-coin:nth-child(2) {
+            top: 30%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        .floating-coin:nth-child(3) {
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: #f8f9fa;
+            padding: 80px 5%;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Problem Section */
+        .problem {
+            padding: 100px 5%;
+            background: white;
+        }
+
+        .problem-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .problem-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .problem-text h3 {
+            font-size: 1.8rem;
+            color: #e74c3c;
+            margin-bottom: 1rem;
+        }
+
+        .problem-list {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .problem-list li {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-left: 4px solid #e74c3c;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .problem-list li:hover {
+            background: #fff5f5;
+            transform: translateX(10px);
+        }
+
+        .problem-visual {
+            position: relative;
+            height: 400px;
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .broken-system {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            padding: 2rem;
+        }
+
+        .system-block {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            animation: shake 2s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Solution Section */
+        .solution {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 5%;
+        }
+
+        .solution-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: #f39c12;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 100px 5%;
+            background: #f8f9fa;
+        }
+
+        .how-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 auto 2rem;
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.3);
+        }
+
+        .step h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .step p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Demo Section */
+        .demo {
+            background: #2c3e50;
+            color: white;
+            padding: 100px 5%;
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .demo-video {
+            margin-top: 3rem;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-placeholder {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        .play-button {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .play-button i {
+            font-size: 2rem;
+            margin-left: 5px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 5%;
+            background: white;
+        }
+
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial {
+            background: #f8f9fa;
+            padding: 2.5rem;
+            border-radius: 20px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial::before {
+            content: '"';
+            font-size: 4rem;
+            color: #e74c3c;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: #555;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .author-info h4 {
+            color: #2c3e50;
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            color: white;
+            padding: 80px 5%;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .waitlist-form {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            max-width: 500px;
+            margin: 2rem auto;
+        }
+
+        .email-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .submit-btn {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #34495e;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 60px 5% 20px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            color: #f39c12;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #f39c12;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: #f39c12;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            text-align: center;
+            color: #666;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .phone-mockup {
+                width: 250px;
+                height: 500px;
+            }
+
+            .problem-content,
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .waitlist-form {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .email-input {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Scroll animations */
+        .scroll-fade {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="nav-container">
+        <nav class="nav">
+            <div class="logo">AfriOne</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="https://afrione-1.gitbook.io/afrione" target="_blank">Docs</a></li>
+                <li><a href="#demo">Demo</a></li>
+            </ul>
+            <a href="#waitlist" class="cta-button">Join Waitlist</a>
+            <div class="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Banking Built for Africa</h1>
+                <p class="subtitle">The world's first decentralized neo-bank that transforms traditional African rotating savings (tontines) into smart contract-powered financial circles.</p>
+                <p class="highlight">99% of unbanked Africans already use tontines. We're making them digital, transparent, and globally accessible.</p>
+                <div class="hero-buttons">
+                    <a href="#waitlist" class="btn-primary">Get Early Access</a>
+                    <a href="#demo" class="btn-secondary">Watch Demo</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="app-header">AfriOne Tontine</div>
+                        <div class="tontine-circle">
+                            <div class="circle">
+                                <div>
+                                    <div style="font-size: 0.9rem;">Your Group</div>
+                                    <div style="font-size: 1.2rem;">₦500K</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="margin-bottom: 10px;">20 Active Members</div>
+                            <div style="background: rgba(255,255,255,0.2); padding: 10px; border-radius: 10px;">
+                                Next Payout: Tomorrow
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="floating-elements">
+                    <div class="floating-coin">N</div>
+                    <div class="floating-coin">$</div>
+                    <div class="floating-coin">E</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <h2 class="section-title">The Tontine Economy</h2>
+            <div class="stats-grid">
+                <div class="stat-item scroll-fade">
+                    <div class="stat-number">400M+</div>
+                    <div class="stat-label">Unbanked Africans</div>
+                </div>
+                <div class="stat-item scroll-fade">
+                    <div class="stat-number">99%</div>
+                    <div class="stat-label">Use Rotating Savings</div>
+                </div>
+                <div class="stat-item scroll-fade">
+                    <div class="stat-number">$2T</div>
+                    <div class="stat-label">Annual Tontine Volume</div>
+                </div>
+                <div class="stat-item scroll-fade">
+                    <div class="stat-number">23%</div>
+                    <div class="stat-label">Default Rate (We Fix This)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem">
+        <div class="problem-container">
+            <h2 class="section-title scroll-fade">The Hidden $2 Trillion Problem</h2>
+            <div class="problem-content">
+                <div class="problem-text scroll-fade">
+                    <h3>Traditional Banking Has Failed Africa</h3>
+                    <p>While banks struggle to serve rural populations with expensive fees and complex requirements, African communities have built the world's most successful peer-to-peer financial network. But it's trapped in manual processes that limit its potential.</p>
+                    
+                    <ul class="problem-list">
+                        <li><strong>Trust Issues:</strong> 23% default rates when personal relationships fail</li>
+                        <li><strong>Manual Records:</strong> Paper-based tracking leads to disputes and errors</li>
+                        <li><strong>Limited Scale:</strong> Groups rarely exceed 50 people due to trust constraints</li>
+                        <li><strong>Geographic Barriers:</strong> Diaspora can't join home country circles</li>
+                        <li><strong>No Investment Access:</strong> Savings trapped without growth opportunities</li>
+                    </ul>
+                </div>
+                <div class="problem-visual scroll-fade">
+                    <div class="broken-system">
+                        <div class="system-block">Paper Records</div>
+                        <div class="system-block">Manual Payouts</div>
+                        <div class="system-block">Trust Issues</div>
+                        <div class="system-block">Cash Only</div>
+                        <div class="system-block">No Credit History</div>
+                        <div class="system-block">High Defaults</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="features" class="solution">
+        <div class="solution-container">
+            <h2 class="section-title scroll-fade">AfriOne: Tontines Meet Blockchain</h2>
+            <p class="scroll-fade" style="text-align: center; font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">We're not teaching Africans new financial behaviors - we're supercharging what already works perfectly with smart contracts and digital transparency.</p>
+            
+            <div class="solution-grid">
+                <div class="feature-card scroll-fade">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Smart Tontine Circles</h3>
+                    <p>Join or create rotating savings groups with 5 to 10,000+ members. Smart contracts automate contributions, payouts, and dispute resolution while preserving community trust.</p>
+                </div>
+                
+                <div class="feature-card scroll-fade">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe-africa"></i>
+                    </div>
+                    <h3>Global Participation</h3>
+                    <p>African diaspora can finally join their home country tontines. Send money from London to Lagos instantly with sub-$1 fees, not the traditional $15-50.</p>
+                </div>
+                
+                <div class="feature-card scroll-fade">
+                    <div class="feature-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3>Asset Tokenization</h3>
+                    <p>Turn your tontine savings into investment opportunities. Buy fractions of real estate, agricultural projects, or commodities starting at just $10.</p>
+                </div>
+                
+                <div class="feature-card scroll-fade">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Multi-Currency Wallet</h3>
+                    <p>Store, send, and receive 15+ African currencies, cryptocurrencies, and stablecoins. Work seamlessly with mobile money, bank transfers, and crypto.</p>
+                </div>
+                
+                <div class="feature-card scroll-fade">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Credit Building</h3>
+                    <p>Every successful tontine participation builds your formal credit history. Access micro-loans, business financing, and investment opportunities.</p>
+                </div>
+                
+                <div class="feature-card scroll-fade">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Blockchain Security</h3>
+                    <p>Built on Hedera's enterprise-grade network. Every transaction is transparent, secure, and permanent. No more disputes over records or payments.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="how-container">
+            <h2 class="section-title scroll-fade">How AfriOne Works</h2>
+            <div class="steps-container">
+                <div class="step scroll-fade">
+                    <div class="step-number">1</div>
+                    <h3>Create or Join</h3>
+                    <p>Start a new tontine group or join an existing one. Set contribution amounts, payout frequency, and group rules through our simple interface.</p>
+                </div>
+                
+                <div class="step scroll-fade">
+                    <div class="step-number">2</div>
+                    <h3>Smart Contracts</h3>
+                    <p>Our blockchain automatically manages contributions, calculates payouts, and ensures everyone follows the rules. No human intervention needed.</p>
+                </div>
+                
+                <div class="step scroll-fade">
+                    <div class="step-number">3</div>
+                    <h3>Instant Payouts</h3>
+                    <p>When it's your turn, receive instant payouts to your wallet. Money can be withdrawn, invested, or used for payments immediately.</p>
+                </div>
+                
+                <div class="step scroll-fade">
+                    <div class="step-number">4</div>
+                    <h3>Build & Invest</h3>
+                    <p>Use your credit history for loans, invest in tokenized assets, or start new tontine groups. Build real wealth through our ecosystem.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo">
+        <div class="demo-container">
+            <h2 class="section-title scroll-fade">See AfriOne in Action</h2>
+            <p class="scroll-fade" style="font-size: 1.2rem; opacity: 0.9;">Watch how Maria's tontine group in Lagos went from paper records and cash payments to automated smart contracts and instant cross-border participation.</p>
+            
+            <div class="demo-video scroll-fade">
+                <div class="video-placeholder">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <h3>AfriOne Platform Demo</h3>
+                    <p>See how traditional tontines transform into powerful financial circles</p>
+                    <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #f39c12;">50ms</div>
+                            <div>Transaction Speed</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #f39c12;">$0.0001</div>
+                            <div>Transaction Cost</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: bold; color: #f39c12;">99.9%</div>
+                            <div>Uptime</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="testimonials">
+        <div class="testimonials-container">
+            <h2 class="section-title scroll-fade">What Early Users Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial scroll-fade">
+                    <p class="testimonial-text">Before AfriOne, our tontine group lost money to defaults and kept records on paper that often got lost. Now everything is automatic and transparent. My daughter in London can even participate from abroad.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">M</div>
+                        <div class="author-info">
+                            <h4>Maria Okafor</h4>
+                            <p>Small Business Owner, Lagos</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial scroll-fade">
+                    <p class="testimonial-text">As a farmer, I used to wait months for payments. With AfriOne's smart contracts, I get paid automatically when I deliver my crops. The blockchain record also helped me get my first bank loan.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">J</div>
+                        <div class="author-info">
+                            <h4>John Mwangi</h4>
+                            <p>Coffee Farmer, Kenya</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial scroll-fade">
+                    <p class="testimonial-text">I've been sending money home to Ghana for 15 years, paying $50 in fees each time. AfriOne costs less than $1 and my family receives the money in seconds, not days. It's revolutionary.</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">K</div>
+                        <div class="author-info">
+                            <h4>Kwame Asante</h4>
+                            <p>Engineer, London</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="waitlist" class="cta-section">
+        <div class="cta-content scroll-fade">
+            <h2>Join the Financial Revolution</h2>
+            <p>Be among the first to experience Africa's most powerful financial platform. Built by Africans, for Africans, powered by blockchain.</p>
+            
+            <form class="waitlist-form">
+                <input type="email" class="email-input" placeholder="Enter your email address" required>
+                <button type="submit" class="submit-btn">Join Waitlist</button>
+            </form>
+            
+            <div style="margin-top: 3rem; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; font-weight: bold;">10,000+</div>
+                    <div>People on waitlist</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; font-weight: bold;">5</div>
+                    <div>Countries launching</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; font-weight: bold;">Q2 2025</div>
+                    <div>Expected launch</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AfriOne</h3>
+                    <p>The world's first decentralized neo-bank built for Africa. Transforming traditional rotating savings into powerful financial circles.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="#">Tontine Circles</a></li>
+                        <li><a href="#">Asset Tokenization</a></li>
+                        <li><a href="#">Multi-Currency Wallet</a></li>
+                        <li><a href="#">Credit Building</a></li>
+                        <li><a href="#">Investment Platform</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 AfriOne. All rights reserved. Built on Hedera Blockchain.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with scroll-fade class
+        document.querySelectorAll('.scroll-fade').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navigation background change on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav-container');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(0, 0, 0, 0.98)';
+            } else {
+                nav.style.background = 'rgba(0, 0, 0, 0.95)';
+            }
+        });
+
+        // Waitlist form handling
+        document.querySelector('.waitlist-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('.email-input').value;
+            
+            // Simple validation
+            if (email && email.includes('@')) {
+                // Here you would normally send to your backend
+                alert('Thank you for joining our waitlist! We will be in touch soon.');
+                this.querySelector('.email-input').value = '';
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        });
+
+        // Demo video interaction
+        document.querySelector('.play-button').addEventListener('click', function() {
+            // Here you would normally open a video modal or redirect to video
+            alert('Demo video coming soon! Follow us on social media for updates.');
+        });
+
+        // Floating coin animations
+        function createFloatingCoins() {
+            const hero = document.querySelector('.hero');
+            const coins = ['₦', ', `€`, `£`, `¥'];
+            
+            setInterval(() => {
+                if (Math.random() > 0.7) { // 30% chance every interval
+                    const coin = document.createElement('div');
+                    coin.className = 'floating-coin';
+                    coin.textContent = coins[Math.floor(Math.random() * coins.length)];
+                    coin.style.left = Math.random() * 100 + '%';
+                    coin.style.top = Math.random() * 100 + '%';
+                    coin.style.animationDelay = Math.random() * 2 + 's';
+                    
+                    hero.appendChild(coin);
+                    
+                    // Remove coin after animation
+                    setTimeout(() => {
+                        if (coin.parentNode) {
+                            coin.parentNode.removeChild(coin);
+                        }
+                    }, 4000);
+                }
+            }, 2000);
+        }
+
+        // Start floating coins animation
+        createFloatingCoins();
+
+        // Add some interactive hover effects
+        document.querySelectorAll('.feature-card, .stat-item, .testimonial').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Counter animation for stats
+        function animateCounters() {
+            // const counters = document.querySelectorAll('.stat-number');
+            const speed = 200; // The lower the slower
+
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = counter.innerText;
+                    let numericTarget = parseInt(target.replace(/[^0-9]/g, ''));
+                    
+                    // Handle different formats
+                    if (target.includes('M+')) numericTarget *= 1000000;
+                    if (target.includes('%')) numericTarget = parseInt(target);
+                    if (target.includes('T')) numericTarget = 2;
+                    
+                    const count = +counter.getAttribute('data-count') || 0;
+                    const inc = numericTarget / speed;
+
+                    if (count < numericTarget) {
+                        counter.setAttribute('data-count', Math.ceil(count + inc));
+                        
+                        // Format the display
+                        let displayValue = Math.ceil(count + inc);
+                        if (target.includes('M+')) {
+                            displayValue = Math.ceil((count + inc) / 1000000) + 'M+';
+                        } else if (target.includes('%')) {
+                            displayValue = Math.ceil(count + inc) + '%';
+                        } else if (target.includes('T')) {
+                            displayValue = ' + Math.ceil(count + inc) + `T';
+                        }
+                        
+                        counter.innerText = displayValue;
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+
+                // Start animation when element is visible
+                const counterObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !counter.getAttribute('data-animated')) {
+                            counter.setAttribute('data-animated', 'true');
+                            counter.setAttribute('data-count', '0');
+                            updateCount();
+                        }
+                    });
+                });
+
+                counterObserver.observe(counter);
+            });
+        }
+
+        // Initialize counter animation
+        animateCounters();
+    </script>
+</body>
+</html>
